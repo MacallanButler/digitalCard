@@ -17,23 +17,15 @@ setTimeout(() => {
 // Card Flip Logic
 // ===========================
 let isFlipped = false;
+let hasFlipped = false;
 
 function flipCard(direction) {
   if (isFlipped) {
-    // If already flipped (on back), flip back to front
     card.classList.remove('flip-left', 'flip-right');
     isFlipped = false;
-    
-    // Restart pulses after a delay
-    setTimeout(() => {
-      pulseLeft.classList.add('active');
-      pulseRight.classList.add('active');
-    }, 6000);
-    
     return;
   }
   
-  // Flip to back
   card.classList.remove('flip-left', 'flip-right');
   
   if (direction === 'left') {
@@ -43,15 +35,14 @@ function flipCard(direction) {
   }
   
   isFlipped = true;
+  hasFlipped = true;
   
-  // Hide pulses after flip
   pulseLeft.classList.remove('active');
   pulseRight.classList.remove('active');
 }
 
-// Click zones for flipping (works on both front and back)
+// Click zones for flipping
 card.addEventListener('click', (e) => {
-  // Don't flip if clicking on links
   if (e.target.closest('a')) {
     return;
   }
