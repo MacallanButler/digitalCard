@@ -1,0 +1,395 @@
+/* ===========================
+   CSS Variables & Reset
+=========================== */
+:root {
+  --card-black: #000000;
+  --chrome-silver: #c0c0c0;
+  --chrome-light: #e8e8e8;
+  --chrome-dark: #808080;
+  --accent-cyan: #00ffff;
+  --accent-magenta: #ff00ff;
+  --accent-yellow: #ffff00;
+  --glow-blue: rgba(0, 255, 255, 0.5);
+  --glow-pink: rgba(255, 0, 255, 0.5);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Orbitron', 'Courier New', monospace;
+  background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
+  color: var(--chrome-silver);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ===========================
+   Card Container
+=========================== */
+.card-container {
+  position: relative;
+  width: 450px;
+  height: 280px;
+  perspective: 2000px;
+}
+
+/* ===========================
+   Pulse Indicators
+=========================== */
+.pulse-left,
+.pulse-right {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 0 10px var(--glow-blue);
+}
+
+.pulse-left {
+  left: 20px;
+}
+
+.pulse-right {
+  right: 20px;
+}
+
+.pulse-left.active,
+.pulse-right.active {
+  animation: pulse 2s ease-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50%) scale(2.5);
+  }
+}
+
+/* ===========================
+   The Card
+=========================== */
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
+}
+
+.card.flip-left {
+  transform: rotateY(-180deg);
+}
+
+.card.flip-right {
+  transform: rotateY(180deg);
+}
+
+/* ===========================
+   Card Faces
+=========================== */
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card-black);
+  border: 2px solid var(--chrome-dark);
+}
+
+.card-front {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* ===========================
+   Chromatic Border Effect
+=========================== */
+.chromatic-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.chromatic-border::before,
+.chromatic-border::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 12px;
+  border: 1px solid;
+  pointer-events: none;
+}
+
+.chromatic-border::before {
+  border-color: var(--accent-cyan);
+  transform: translate(-1px, -1px);
+  opacity: 0.6;
+}
+
+.chromatic-border::after {
+  border-color: var(--accent-magenta);
+  transform: translate(1px, 1px);
+  opacity: 0.6;
+}
+
+/* ===========================
+   Front Side - The Jack
+=========================== */
+.card-corners {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--chrome-light);
+  text-shadow: 
+    0 0 10px var(--glow-blue),
+    0 0 20px var(--glow-blue);
+}
+
+.corner {
+  position: absolute;
+  padding: 1rem;
+}
+
+.top-left {
+  top: 0;
+  left: 0;
+}
+
+.bottom-right {
+  bottom: 0;
+  right: 0;
+  transform: rotate(180deg);
+}
+
+.jack-monogram {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.j-letter {
+  font-size: 8rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--chrome-light) 0%, var(--chrome-silver) 50%, var(--chrome-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 
+    0 0 20px var(--glow-blue),
+    0 0 40px var(--glow-pink);
+  filter: drop-shadow(0 0 20px var(--glow-blue)) drop-shadow(0 0 40px var(--glow-pink));
+  animation: glitch 3s infinite;
+}
+
+@keyframes glitch {
+  0%, 90%, 100% {
+    transform: translate(0);
+  }
+  92% {
+    transform: translate(-2px, 2px);
+  }
+  94% {
+    transform: translate(2px, -2px);
+  }
+  96% {
+    transform: translate(-2px, -2px);
+  }
+  98% {
+    transform: translate(2px, 2px);
+  }
+}
+
+/* ===========================
+   Suit Pattern - Geometric
+=========================== */
+.suit-pattern {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.geo-shape {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-magenta) 100%);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  animation: rotate 4s linear infinite;
+  box-shadow: 
+    0 0 10px var(--glow-blue),
+    0 0 20px var(--glow-pink);
+}
+
+.geo-shape:nth-child(2) {
+  animation-delay: 1s;
+}
+
+.geo-shape:nth-child(3) {
+  animation-delay: 2s;
+}
+
+.geo-shape:nth-child(4) {
+  animation-delay: 3s;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===========================
+   Back Side - Contact Info
+=========================== */
+.contact-info {
+  text-align: center;
+  z-index: 2;
+  padding: 2rem;
+}
+
+.name {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--chrome-light) 0%, var(--chrome-silver) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 20px var(--glow-blue);
+  filter: drop-shadow(0 0 10px var(--glow-blue));
+}
+
+.title {
+  font-size: 1rem;
+  color: var(--chrome-silver);
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.8;
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1.5rem;
+  background: rgba(192, 192, 192, 0.05);
+  border: 1px solid var(--chrome-dark);
+  border-radius: 6px;
+  color: var(--chrome-light);
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  min-width: 280px;
+  justify-content: flex-start;
+}
+
+.contact-item:hover {
+  background: rgba(192, 192, 192, 0.1);
+  border-color: var(--accent-cyan);
+  box-shadow: 
+    0 0 10px var(--glow-blue),
+    inset 0 0 10px var(--glow-blue);
+  transform: translateX(5px);
+}
+
+.contact-item .icon {
+  font-size: 1.25rem;
+  width: 24px;
+  text-align: center;
+  color: var(--accent-cyan);
+  font-weight: 700;
+}
+
+.portfolio-link {
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(255, 0, 255, 0.1) 100%);
+  border-color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.portfolio-link:hover {
+  box-shadow: 
+    0 0 20px var(--glow-blue),
+    0 0 20px var(--glow-pink),
+    inset 0 0 20px var(--glow-blue);
+}
+
+/* ===========================
+   Responsive Design
+=========================== */
+@media (max-width: 768px) {
+  .card-container {
+    width: 280px;
+    height: 450px;
+  }
+  
+  .j-letter {
+    font-size: 6rem;
+  }
+  
+  .name {
+    font-size: 1.5rem;
+  }
+  
+  .contact-item {
+    min-width: 220px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 769px) {
+  body {
+    background: radial-gradient(circle at center, #0f0f0f 0%, #000000 100%);
+  }
+}
