@@ -152,6 +152,7 @@ body {
   box-shadow: 
     inset 0 0 0 1px var(--chrome-dark),
     0 0 30px var(--glow-purple);
+    pointer-events: none;
 }
 
 .card-face::before {
@@ -186,6 +187,24 @@ body {
   justify-content: center;
   align-items: center;
   position: absolute;
+}
+
+.card.flip-left .card-front,
+.card.flip-right .card-front {
+  pointer-events: none; /*disable on flip*/
+}
+
+.card.flip-left .card-back,
+.card.flip-right .card-back {
+  pointer-events: auto; /*enable on flip*/
+}
+
+.card:not(.flip-left):not(.flip-right) .card-front {
+  pointer-events: auto; /* Enable front when not flipped */
+}
+
+.card:not(.flip-left):not(.flip-right) .card-back {
+  pointer-events: none; /* Disable back when not flipped */
 }
 
 /* ===========================
@@ -271,14 +290,14 @@ body {
 }
 
 .j-letter {
-  font-size: 13rem;
-  font-weight: 900;
+  font-family: 'Russo One', sans-serif;
+  font-weight: 400;
+  font-size: 3rem;
   background: linear-gradient(135deg, var(--chrome-light) 0%, var(--chrome-silver) 50%, var(--chrome-dark) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   filter: drop-shadow(0 0 30px var(--glow-purple-bright)) drop-shadow(0 0 50px var(--glow-purple));
-  letter-spacing: -8px;
   position: relative;
   animation: lightTrail 4s ease-in-out infinite;
 }
@@ -351,6 +370,7 @@ body {
   gap: 1rem;
   align-items: center;
   width: 100%;
+  letter-spacing: 2px;
 }
 
 .contact-item {
